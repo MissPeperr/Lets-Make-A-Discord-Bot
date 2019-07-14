@@ -145,7 +145,7 @@ const insults = {
         "whey-face",
         "wagtail"],
     randomInsultForUser(user) {
-        return `${user.username} is a ${insults.descriptor[randomNum()]}, ${insults.verb[randomNum()]}, ${insults.nouns[randomNum()]}.`
+        return `${user.username} is a ${insults.descriptorArray[randomNum()]}, ${insults.verbArray[randomNum()]}, ${insults.nounArray[randomNum()]}.`
     },
     randomInsultForMe() {
         return `You ${insults.descriptorArray[randomNum()]}, ${insults.verbArray[randomNum()]}, ${insults.nounArray[randomNum()]}.`
