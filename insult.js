@@ -103,7 +103,7 @@ const insults = {
         "toad-spotted",
         "unchin-snouted",
         "weather-bitten"],
-    nounsArray: ["clotpole",
+    nounArray: ["clotpole",
         "coxcomb",
         "codpiece",
         "death-token",
@@ -148,7 +148,7 @@ const insults = {
         return `${user.username} is a ${insults.descriptor[randomNum()]}, ${insults.verb[randomNum()]}, ${insults.nouns[randomNum()]}.`
     },
     randomInsultForMe() {
-        return `You ${insults.descriptor[randomNum()]}, ${insults.verb[randomNum()]}, ${insults.nouns[randomNum()]}.`
+        return `You ${insults.descriptorArray[randomNum()]}, ${insults.verbArray[randomNum()]}, ${insults.nounArray[randomNum()]}.`
     }
 }
 
