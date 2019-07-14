@@ -3,7 +3,7 @@ const randomNum = () => {
 }
 
 const insults = {
-    descriptorArray: ["artless",
+    descriptorArray: ["pokey", "artless",
         "bawdy",
         "beslubbering",
         "bootless",
@@ -53,7 +53,7 @@ const insults = {
         "wayword",
         "weedy",
         "yeasty"],
-    verbArray: ["base-court",
+    verbArray: ["little", "base-court",
         "bat-fowling",
         "beef-witted",
         "beetle-headed",
@@ -103,7 +103,7 @@ const insults = {
         "toad-spotted",
         "unchin-snouted",
         "weather-bitten"],
-    nounArray: ["clotpole",
+    nounArray: ["flab-biscuit", "clotpole",
         "coxcomb",
         "codpiece",
         "death-token",
@@ -145,10 +145,24 @@ const insults = {
         "whey-face",
         "wagtail"],
     randomInsultForUser(user) {
-        return `${user.username} is a ${insults.descriptorArray[randomNum()]}, ${insults.verbArray[randomNum()]}, ${insults.nounArray[randomNum()]}.`
+        const firstWord = this.descriptorArray[randomNum()];
+        if(firstWord.split("")[0].includes('a', 'e', 'i', 'o', 'u')){
+            return `${user.username} is an ${firstWord}, ${this.verbArray[randomNum()]}, ${this.nounArray[randomNum()]}.`
+        } else {
+            return `${user.username} is a ${firstWord}, ${this.verbArray[randomNum()]}, ${this.nounArray[randomNum()]}.`
+        }
+    },
+    randomInsultForName(name) {
+        const firstWord = this.descriptorArray[randomNum()];
+        console.log(firstWord)
+        if(firstWord.split("")[0].includes('a', 'e', 'i', 'o', 'u')){
+            return `${name} is an ${firstWord}, ${this.verbArray[randomNum()]}, ${this.nounArray[randomNum()]}.`
+        } else {
+            return `${name} is a ${firstWord}, ${this.verbArray[randomNum()]}, ${this.nounArray[randomNum()]}.`
+        }
     },
     randomInsultForMe() {
-        return `You ${insults.descriptorArray[randomNum()]}, ${insults.verbArray[randomNum()]}, ${insults.nounArray[randomNum()]}.`
+        return `You ${this.descriptorArray[randomNum()]}, ${this.verbArray[randomNum()]}, ${this.nounArray[randomNum()]}.`
     }
 }
 

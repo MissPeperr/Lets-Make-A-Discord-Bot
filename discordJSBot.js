@@ -20,7 +20,7 @@ client.on('message', message => {
         message.channel.send('pong');
     }
     if (message.content === 'help') {
-        message.channel.send('Commands: \`ping\`, \`help\`, \`surprise me\`, \`insult me\`, \`insult {username}\`');
+        message.channel.send('Commands: \`ping\`, \`help\`, \`surprise me\`, \`insult me\`, \`insult {@mention}\`, \`insult {name}\`');
     }
     if (message.content === 'log users') {
         client.users.forEach(user => {
@@ -42,24 +42,23 @@ client.on('message', message => {
             }
         })
     }
-    if (message.content.toUpperCase().includes('INSULT ME')) {
+    if (message.content.toUpperCase().includes('INSULT')) {
+        const messageArray = message.content.split(" ");
+        let breakLoop = false;
         client.users.forEach(user => {
-            if (user.lastMessage) {
-                if (user.lastMessage.content.toUpperCase() === 'INSULT ME') {
+            if (!breakLoop) {
+                if (user.lastMessage && user.lastMessage.content.toUpperCase() === message.content.toUpperCase() && message.content.toUpperCase() === 'INSULT ME') {
                     message.channel.send(insults.randomInsultForMe());
+                    breakLoop = true;
+                } else if (message.isMemberMentioned(user) || message.content.toUpperCase().includes(`${user.username}`)) {
+                    message.channel.send(insults.randomInsultForUser(user));
+                    breakLoop = true;
+                } else if (user.lastMessage && user.lastMessage.content.toUpperCase() === message.content.toUpperCase() && messageArray.length === 2) {
+                    message.channel.send(insults.randomInsultForName(messageArray[1]));
+                    breakLoop = true;
                 }
             }
         })
-    }
-    if (message.content.toUpperCase().includes('INSULT')) {
-        client.users.forEach(user => {
-            if (message.content.toUpperCase().includes('PARKER')) {
-                message.channel.send(insults.randomInsultForUser(user));
-            } else if (message.isMemberMentioned(user) || message.content.toUpperCase().includes(`${user.username}`)) {
-                message.channel.send(insults.randomInsultForUser(user));
-            }
-        })
-
     }
 
 });
