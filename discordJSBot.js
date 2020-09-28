@@ -80,7 +80,7 @@ client.on('message', message => {
     // Mute everyone in the voice channel message user is in. Command MUST be used in a channel called #bot-commands.
     if (content === '.MUTE' && (ifServerOwner(message)
         || message.member.user.username === 'Pumpkin Head Harvey'
-        || Array.from(message.member.roles.values()).find(role => role.name === 'Server Stalin'))) {
+        || Array.from(message.member.roles.values()).find(role => role.name === 'Server Stalin') || Array.from(message.member.roles.values()).find(role => role.name === 'Among Us'))) {
         if (message.member.voiceChannel && message.channel.name === 'bot-commands') {
             let channel = message.member.voiceChannel
             for (let member of channel.members) {
@@ -99,7 +99,7 @@ client.on('message', message => {
     // Mute everyone in the voice channel message user is in. Command MUST be used in a channel called #bot-commands.
     if (content === '.UNMUTE' && (ifServerOwner(message)
     || message.member.user.username === 'Pumpkin Head Harvey'
-    || Array.from(message.member.roles.values()).find(role => role.name === 'Server Stalin'))) {
+    || Array.from(message.member.roles.values()).find(role => role.name === 'Server Stalin') || Array.from(message.member.roles.values()).find(role => role.name === 'Among Us'))) {
         if (message.member.voiceChannel && message.channel.name === 'bot-commands') {
             let channel = message.member.voiceChannel
             for (let member of channel.members) {
