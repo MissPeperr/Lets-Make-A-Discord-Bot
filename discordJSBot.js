@@ -61,7 +61,7 @@ client.on('message', message => {
         let breakLoop = false
         client.users.forEach(user => {
             if (!breakLoop) {
-                if (user.lastMessage && user.lastMessage.content.toUpperCase() === content.toUpperCase() && content.toUpperCase() === '!INSULT ME') {
+                if (user.lastMessage && user.lastMessage.content.toUpperCase() === content.toUpperCase() && content.toUpperCase() === '.INSULT ME') {
                     message.channel.send(insults.randomInsultForMe())
                     breakLoop = true
                 } else if (message.isMemberMentioned(user) || content.toUpperCase().includes(`${user.username}`)) {
@@ -75,8 +75,11 @@ client.on('message', message => {
         })
     }
 
-    // TODO: Make a role that allows people to mute
-    // TODO: Try to make the muting consistent?
+    
+    // TODO: Allow people with an Among Us role to mute
+    // TODO: Allow people with certain permissions to mute
+    // TODO: Allow people to change whether or not they want the among us role to mute people or just admin users
+
     // Mute everyone in the voice channel message user is in. Command MUST be used in a channel called #bot-commands.
     if (content === '.MUTE' && (ifServerOwner(message)
         || message.member.user.username === 'Pumpkin Head Harvey'
