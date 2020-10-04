@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node discord-bot.js"
     },
-    "author": "Madi Peper",
+    "author": "MissPeperr",
     "dependencies": {
         "discord.js": "^11.5.1",
         "node-fetch": "^2.6.1"

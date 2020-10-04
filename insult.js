@@ -154,7 +154,6 @@ const insults = {
     },
     randomInsultForName(name) {
         const firstWord = this.descriptorArray[randomNum()];
-        console.log(firstWord)
         if(firstWord.split("")[0].includes('a', 'e', 'i', 'o', 'u')){
             return `${name} is an ${firstWord}, ${this.verbArray[randomNum()]}, ${this.nounArray[randomNum()]}.`
         } else {
