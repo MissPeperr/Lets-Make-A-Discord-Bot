@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const auth = require('./auth.json')
+const {token} = require('./config.json')
 const giphyManager = require("./giphy.js")
 const insults = require('./insult.js')
 
@@ -13,6 +13,9 @@ const ifServerOwner = (message) => message.guild.ownerID === message.member.id
  * received from Discord
  */
 client.on('ready', () => console.log('I am ready!'))
+
+// Log our bot in using the token from https://discordapp.com/developers/applications/me
+client.login(token)
 
 // TODO: Change all these if/else's to damn switch/cases
 // Create an event listener for messages
@@ -129,6 +132,3 @@ client.on('message', message => {
     }
 
 })
-
-// Log our bot in using the token from https://discordapp.com/developers/applications/me
-client.login(auth.token)
