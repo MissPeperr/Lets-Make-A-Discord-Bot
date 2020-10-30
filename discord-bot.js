@@ -123,7 +123,6 @@ client.on('message', message => {
 
     // If someone wanted to thank Clarence
     if (content.join(' ') === 'I LOVE YOU CLARENCE' || content.join(' ') === 'GOOD JOB CLARENCE' || content.join(' ') === 'THANK YOU CLARENCE') {
-        console.log(message)
         message.channel.send(`Thank you ${message.member.nickname}! I'm trying my best ♥`)
     }
 
