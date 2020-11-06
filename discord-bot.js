@@ -122,7 +122,7 @@ client.on('message', message => {
     }
 
     // TODO: add these in to the switch statements you dummy
-    if (content.join(' ') === 'I LOVE YOU CLARENCE' || content.join(' ') === 'GOOD JOB CLARENCE' || content.join(' ') === 'THANK YOU CLARENCE') {
+    if (content.join(' ').includes('I LOVE YOU CLARENCE') || content.join(' ').includes('GOOD JOB CLARENCE') || content.join(' ').includes('THANK YOU CLARENCE')) {
         try {
             message.channel.send(`Thank you ${message.member.nickname}! I'm trying my best ♥`)
         } catch (err) {
