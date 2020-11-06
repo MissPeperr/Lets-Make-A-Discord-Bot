@@ -121,10 +121,14 @@ client.on('message', message => {
             break
     }
 
-    // If someone wanted to thank Clarence
+    // TODO: add these in to the switch statements you dummy
     if (content.join(' ') === 'I LOVE YOU CLARENCE' || content.join(' ') === 'GOOD JOB CLARENCE' || content.join(' ') === 'THANK YOU CLARENCE') {
-        console.log(message.member)
-        message.channel.send(`Thank you ${message.member.nickname}! I'm trying my best ♥`)
+        try {
+            message.channel.send(`Thank you ${message.member.nickname}! I'm trying my best ♥`)
+        } catch (err) {
+            console.log("Something went wrong trying to give Clarence affection: ", err)
+            message.channel.send(`Thank you ${message.author.username}! I'm trying my best ♥`)
+        }
     }
 
 })
