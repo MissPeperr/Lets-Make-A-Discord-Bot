@@ -24,7 +24,7 @@ client.on('message', message => {
     switch (content[0]) {
         // Lists available commands
         case `${prefix}HELP`:
-            message.channel.send(`▫\`.help\`\n▫\`.surprise me\`\n▫\`.surprise {@mention}\`\n▫\`.surprise {name}\`\n▫\`.insult me\`\n▫\`.insult {@mention}\`\n▫\`.insult {name}\`\n▫\`.ping\`\n${ifServerOwner(message) ? '▫\`.mute\`\n▫\`.unmute\`' : ''}`)
+            message.channel.send(`Here's the list of available commands:\n▫\`.help\`\n▫\`.surprise me\`\n▫\`.surprise {@mention}\`\n▫\`.surprise {name}\`\n▫\`.insult me\`\n▫\`.insult {@mention}\`\n▫\`.insult {name}\`\n▫\`.ping\`\n${ifServerOwner(message) ? '▫\`.mute\`\n▫\`.unmute\`' : ''}`)
             break
 
         case `${prefix}PING`:
@@ -48,75 +48,105 @@ client.on('message', message => {
         // Dumb surprise
         case `${prefix}SURPRISE`:
             if (!message.author.bot) {
-                const surpriseArgs = content[1]
-                if (args === 'ME') {
-                    giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.member.nickname}?`))
-                } else if (surpriseArgs !== 'ME') {
-                    let [member] = Array.from(message.mentions.members.values())
-                    member ? giphyManager.surprise(message)
-                        .then(x => message.channel.send(`Are you surprised, ${member.nickname ? member.nickname : member.user.username}?`)) 
-                        : giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.content.split(" ")[1]}?`))
-                } else {
-                    giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.member.nickname}?`))
+                try {
+                    const surpriseArgs = content[1]
+                    if (surpriseArgs === 'ME') {
+                        giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.member.nickname}?`))
+                    } else if (surpriseArgs !== 'ME') {
+                        let [member] = Array.from(message.mentions.members.values())
+                        member ? giphyManager.surprise(message)
+                            .then(x => message.channel.send(`Are you surprised, ${member.nickname ? member.nickname : member.user.username}?`))
+                            : giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.content.split(" ")[1]}?`))
+                    } else {
+                        giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.member.nickname}?`))
+                    }
+                } catch (err) {
+                    console.log("Something went wrong trying to surprise people:", err)
+                    console.log("******************************************")
+                    console.log(message)
                 }
             }
             break
-    
+
         // Insult people using old timey insults
         case `${prefix}INSULT`:
-            const insultArgs = content[1]
-            const [member] = Array.from(message.mentions.members.values())
-            if (member) {
-                message.channel.send(insults.randomInsultForUser(member.user))
-            } else if (insultArgs === 'ME') {
-                message.channel.send(insults.randomInsultForMe())
-            } else (
-                message.channel.send(insults.randomInsultForName(message.content.split(" ")[1]))
-            )
+            try {
+                const insultArgs = content[1]
+                const [member] = Array.from(message.mentions.members.values())
+                if (member) {
+                    message.channel.send(insults.randomInsultForUser(member.user))
+                } else if (insultArgs === 'ME') {
+                    message.channel.send(insults.randomInsultForMe())
+                } else (
+                    message.channel.send(insults.randomInsultForName(message.content.split(" ")[1]))
+                )
+            } catch (err) {
+                console.log("Something went wrong trying to insult people:", err)
+                console.log("******************************************")
+                console.log(message)
+            }
             break
-        
+
         // TODO: Allow people to change whether or not they want the among us role to mute people or just admin users
 
         // Mute everyone in the voice channel message user is in
         case `${prefix}MUTE`:
-            if (ifServerOwner(message) || Array.from(message.member.roles.values()).find(role => role.name === 'Among Us')) {
-                if (message.member.voiceChannel) {
-                    let channel = message.member.voiceChannel
-                    for (let member of channel.members) {
-                        member[1].setMute(true)
+            try {
+                if (ifServerOwner(message) || Array.from(message.member.roles.values()).find(role => role.name === 'Among Us')) {
+                    if (message.member.voiceChannel) {
+                        let channel = message.member.voiceChannel
+                        for (let member of channel.members) {
+                            member[1].setMute(true)
+                        }
+                        message.channel.send(`Shhhh... 🤫 Muting everyone in ${message.member.voiceChannel.name}...`)
+                    } else {
+                        message.channel.send("You must be in a voice channel to use this command 💁‍♂️")
                     }
-                    message.channel.send(`Shhhh... 🤫 Muting everyone in ${message.member.voiceChannel.name}...`)
                 } else {
-                    message.channel.send("You must be in a voice channel to use this command 💁‍♂️")
+                    message.channel.send("Fuck you I won't do what you tell me 😡")
                 }
-            } else {
-                message.channel.send("Fuck you I won't do what you tell me 😡")
+            } catch (err) {
+                console.log("Something went wrong trying to mute people:", err)
+                console.log("******************************************")
+                console.log(message)
             }
             break
-        
+
         // Unmute everyone in the voice channel message user is in
         case `${prefix}UNMUTE`:
-            if (ifServerOwner(message) || Array.from(message.member.roles.values()).find(role => role.name === 'Among Us')) {
-                if (message.member.voiceChannel) {
-                    let channel = message.member.voiceChannel
-                    for (let member of channel.members) {
-                        member[1].setMute(false)
+            try {
+                if (ifServerOwner(message) || Array.from(message.member.roles.values()).find(role => role.name === 'Among Us')) {
+                    if (message.member.voiceChannel) {
+                        let channel = message.member.voiceChannel
+                        for (let member of channel.members) {
+                            member[1].setMute(false)
+                        }
+                        message.channel.send(`Discuss! 🎙 Unmuting everyone in ${message.member.voiceChannel.name}...`)
+                    } else {
+                        message.channel.send("You must be in a voice channel to use this command 💁‍♂️")
                     }
-                    message.channel.send(`Discuss! 🎙 Unmuting everyone in ${message.member.voiceChannel.name}...`)
                 } else {
-                    message.channel.send("You must be in a voice channel to use this command 💁‍♂️")
+                    message.channel.send("YOU'RE NOT MY MOM! 😝")
                 }
-            } else {
-                message.channel.send("YOU'RE NOT MY MOM! 😝")
+            } catch (err) {
+                console.log("Something went wrong trying to unmute people:", err)
+                console.log("******************************************")
+                console.log(message)
             }
             break
-        
+
         // TODO: Make funtimes a customizable command?
         // For funsies
         case `${prefix}FUNTIMES`:
-            giphyManager.fun(message)
+            try{
+                giphyManager.fun(message)
+            } catch (err) {
+                console.log("Something went wrong trying to have fun times:", err)
+                console.log("******************************************")
+                console.log(message)
+            }
             break
-        
+
         default:
             break
     }
