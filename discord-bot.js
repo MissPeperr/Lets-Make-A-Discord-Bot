@@ -51,14 +51,14 @@ client.on('message', message => {
                 try {
                     const surpriseArgs = content[1]
                     if (surpriseArgs === 'ME') {
-                        giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.member.nickname}?`))
+                        giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.member.nickname ? message.member.nickname : message.author.username}?`))
                     } else if (surpriseArgs !== 'ME') {
                         let [member] = Array.from(message.mentions.members.values())
                         member ? giphyManager.surprise(message)
                             .then(x => message.channel.send(`Are you surprised, ${member.nickname ? member.nickname : member.user.username}?`))
                             : giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.content.split(" ")[1]}?`))
                     } else {
-                        giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.member.nickname}?`))
+                        giphyManager.surprise(message).then(x => message.channel.send(`Are you surprised, ${message.member.nickname ? message.member.nickname : message.author.username}?`))
                     }
                 } catch (err) {
                     console.log("Something went wrong trying to surprise people:", err)
