@@ -11,6 +11,15 @@ client.login(token)
 
 const ifServerOwner = (message) => message.guild.ownerID === message.member.id
 
+const giveAffection = (message) => {
+    try {
+        message.channel.send(`Thank you ${message.member.nickname}! I'm trying my best ♥`)
+    } catch (err) {
+        console.log("Something went wrong trying to give Clarence affection: ", err)
+        message.channel.send(`Thank you ${message.author.username}! I'm trying my best ♥`)
+    }
+}
+
 /**
  * The ready event is vital, it means that only _after_ this will your bot start reacting to information
  * received from Discord
@@ -19,9 +28,9 @@ client.on('ready', () => console.log('I am ready!'))
 
 // Create an event listener for messages
 client.on('message', message => {
-    let content = message.content.toUpperCase().split(" ")
+    let content = message.content.toUpperCase()
 
-    switch (content[0]) {
+    switch (content) {
         // Lists available commands
         case `${prefix}HELP`:
             message.channel.send(`Here's the list of available commands:\n▫\`.help\`\n▫\`.surprise me\`\n▫\`.surprise {@mention}\`\n▫\`.surprise {name}\`\n▫\`.insult me\`\n▫\`.insult {@mention}\`\n▫\`.insult {name}\`\n▫\`.ping\`\n${ifServerOwner(message) ? '▫\`.mute\`\n▫\`.unmute\`' : ''}`)
@@ -146,19 +155,16 @@ client.on('message', message => {
                 console.log(message)
             }
             break
+        
+        // GIve Clarence affection! ♥
+        case `I LOVE YOU CLARENCE`:
+        case `GOOD JOB CLARENCE`:
+        case `THANK YOU CLARENCE`:
+            giveAffection(message)
+            break
 
         default:
             break
-    }
-
-    // TODO: add these in to the switch statements you dummy
-    if (content.join(' ').includes('I LOVE YOU CLARENCE') || content.join(' ').includes('GOOD JOB CLARENCE') || content.join(' ').includes('THANK YOU CLARENCE')) {
-        try {
-            message.channel.send(`Thank you ${message.member.nickname}! I'm trying my best ♥`)
-        } catch (err) {
-            console.log("Something went wrong trying to give Clarence affection: ", err)
-            message.channel.send(`Thank you ${message.author.username}! I'm trying my best ♥`)
-        }
     }
 
 })
