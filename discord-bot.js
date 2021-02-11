@@ -20,6 +20,10 @@ const giveAffection = (message) => {
     }
 }
 
+const commandList = (message) => {
+    return (`Here's the list of available commands:\n▫\`.help\`\n▫\`.surprise me\`\n▫\`.surprise {@mention}\`\n▫\`.surprise {name}\`\n▫\`.insult me\`\n▫\`.insult {@mention}\`\n▫\`.insult {name}\`\n▫\`.ping\`\n${ifServerOwner(message) ? '▫\`.mute\`\n▫\`.unmute\`' : ''}`)
+}
+
 /**
  * The ready event is vital, it means that only _after_ this will your bot start reacting to information
  * received from Discord
@@ -28,12 +32,14 @@ client.on('ready', () => console.log('I am ready!'))
 
 // Create an event listener for messages
 client.on('message', message => {
-    let content = message.content.toUpperCase()
+    const content = message.content.toUpperCase()
+    const command = content.split(" ")[0]
+    
 
-    switch (content) {
+    switch (command) {
         // Lists available commands
         case `${prefix}HELP`:
-            message.channel.send(`Here's the list of available commands:\n▫\`.help\`\n▫\`.surprise me\`\n▫\`.surprise {@mention}\`\n▫\`.surprise {name}\`\n▫\`.insult me\`\n▫\`.insult {@mention}\`\n▫\`.insult {name}\`\n▫\`.ping\`\n${ifServerOwner(message) ? '▫\`.mute\`\n▫\`.unmute\`' : ''}`)
+            message.channel.send(commandList(message))
             break
 
         case `${prefix}PING`:
@@ -112,7 +118,7 @@ client.on('message', message => {
                         message.channel.send("You must be in a voice channel to use this command 💁‍♂️")
                     }
                 } else {
-                    message.channel.send("Fuck you I won't do what you tell me 😡")
+                    message.channel.send("I don't have to listen to you, human.")
                 }
             } catch (err) {
                 console.log("Something went wrong trying to mute people:", err)
@@ -156,15 +162,13 @@ client.on('message', message => {
             }
             break
         
-        // GIve Clarence affection! ♥
-        case `I LOVE YOU CLARENCE`:
-        case `GOOD JOB CLARENCE`:
-        case `THANK YOU CLARENCE`:
-            giveAffection(message)
-            break
-
         default:
             break
+        }
+        
+    // Give Clarence affection! ♥
+    if (content.includes("I LOVE YOU CLARENCE") || content.includes("GOOD JOB CLARENCE") || content.includes("THANK YOU CLARENCE")){
+        giveAffection(message)
     }
 
 })
